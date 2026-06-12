@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String
+  createdAt DateTime @default(now())
+  tasks     Task[]
+}
+
+model Task {
+  id          Int      @id @default(autoincrement())
+
+  pokemonName String?
+  nature      String?
+  ability     String?
+  effortH Int? @default(0)
+  effortA Int? @default(0)
+  effortB Int? @default(0)
+  effortC Int? @default(0)
+  effortD Int? @default(0)
+  effortS Int? @default(0)
+  item        String?
+  move1       String?
+  move2       String?
+  move3       String?
+  move4       String?
+  memo        String?
+  imageUrl    String?
+
+  isCompleted Boolean  @default(false)
+  dueDate     DateTime?
+  createdAt   DateTime @default(now())
+
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
